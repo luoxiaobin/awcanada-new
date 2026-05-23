@@ -1,0 +1,153 @@
+.social-section {
+  background-color: #f1f5f9;
+  padding: 4rem 0;
+  text-align: center;
+}
+
+.social-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.social-title {
+  font-size: 2.2rem;
+  color: #0f172a;
+  margin-bottom: 0.25rem;
+  font-weight: 800;
+}
+
+.social-subtitle {
+  font-size: 1.2rem;
+  color: #475569;
+  font-style: italic;
+  margin-bottom: 1.5rem;
+}
+
+.target-icon-container {
+  width: 90px;
+  height: 90px;
+  margin-bottom: 3rem;
+}
+
+.target-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.target-ring {
+  fill: none;
+  stroke-width: 8;
+}
+
+.ring-red {
+  stroke: #dc2626;
+  fill: #fca5a5;
+}
+
+.ring-orange {
+  stroke: #ea580c;
+  fill: #ffedd5;
+}
+
+.ring-yellow {
+  stroke: #eab308;
+  fill: #fef9c3;
+}
+
+.ring-center {
+  fill: #dc2626;
+  stroke: #ffffff;
+  stroke-width: 2;
+}
+
+.social-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2.5rem;
+  width: 100%;
+  max-width: 1000px;
+}
+
+.social-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.social-card h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+.qr-wrapper {
+  background: white;
+  padding: 0.75rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  border: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 160px;
+  height: 160px;
+}
+
+.qr-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.youtube-button {
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+
+.youtube-button:hover {
+  transform: scale(1.05);
+}
+
+.yt-circle {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background-color: #b91c1c; /* Original style dark red */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-family: 'Arial Black', Impact, sans-serif;
+  box-shadow: 0 10px 15px -3px rgba(185, 28, 28, 0.3);
+}
+
+.yt-text-top {
+  font-size: 1.7rem;
+  line-height: 1.1;
+}
+
+.yt-text-bottom {
+  background-color: white;
+  color: #b91c1c;
+  padding: 0.1rem 0.5rem;
+  border-radius: 4px;
+  font-size: 1.3rem;
+  line-height: 1.1;
+  margin-top: 2px;
+}
+
+@media (max-width: 768px) {
+  .social-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .social-grid {
+    grid-template-columns: 1fr;
+  }
+}
