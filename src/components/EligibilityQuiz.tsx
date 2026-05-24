@@ -2,7 +2,12 @@ import React, { useState } from 'react';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import './EligibilityQuiz.css';
 
-const EligibilityQuiz: React.FC = () => {
+interface EligibilityQuizProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const EligibilityQuiz: React.FC<EligibilityQuizProps> = ({ isOpen, onClose }) => {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     education: '',
@@ -20,9 +25,19 @@ const EligibilityQuiz: React.FC = () => {
     setFormData({ education: '', experience: '', language: '' });
   };
 
+  if (!isOpen) return null;
+
   return (
-    <section className="section quiz-section">
-      <div className="container">
+    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+      <section className="section quiz-section bg-white rounded-lg max-w-2xl w-full max-h-screen overflow-y-auto">
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-slate-500 hover:text-slate-700"
+          aria-label="Close"
+        >
+          ✕
+        </button>
+        <div className="container">
         <div className="quiz-container">
           <div className="quiz-info">
             <h2>Not sure which visa is right for you?</h2>
@@ -97,6 +112,7 @@ const EligibilityQuiz: React.FC = () => {
         </div>
       </div>
     </section>
+    </div>
   );
 };
 
