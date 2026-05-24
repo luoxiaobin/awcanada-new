@@ -36,7 +36,7 @@ const t = {
   },
 };
 
-const App: React.FC = () => {
+const App = () => {
   const [quizOpen, setQuizOpen] = useState(false);
   const { lang } = useLang();
   const tx = t[lang];
