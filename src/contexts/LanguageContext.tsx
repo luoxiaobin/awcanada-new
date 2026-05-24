@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 
 type Lang = 'zh' | 'en';
 
@@ -18,15 +18,14 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     return stored === 'en' || stored === 'zh' ? stored : 'zh';
   });
 
-  const setLang = (next: Lang) => {
+  const setLang = useCallback((next: Lang) => {
     localStorage.setItem('lang', next);
-    document.documentElement.lang = next === 'zh' ? 'zh-CN' : 'en';
     setLangState(next);
-  };
+  }, []);
 
   useEffect(() => {
     document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
-  }, []);
+  }, [lang]);
 
   return (
     <LanguageContext.Provider value={{ lang, setLang }}>
