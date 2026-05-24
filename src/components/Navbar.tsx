@@ -126,7 +126,10 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenQuiz }) => {
 
             {/* Right side */}
             <div className="flex items-center gap-3">
-              <button className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-200 text-sm text-slate-600 hover:border-brand-sky hover:text-brand-sky transition-all duration-200">
+              <button
+                className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-200 text-sm text-slate-600 hover:border-brand-sky hover:text-brand-sky transition-all duration-200"
+                aria-label="Toggle language"
+              >
                 <Globe className="w-3.5 h-3.5" />
                 EN | 中文
               </button>
@@ -139,6 +142,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenQuiz }) => {
               <button
                 onClick={() => setSheetOpen(true)}
                 className="lg:hidden p-2 rounded-xl text-slate-600 hover:bg-slate-100 transition-colors duration-200"
+                aria-label="Open menu"
               >
                 <Menu className="w-5 h-5" />
               </button>
@@ -159,6 +163,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenQuiz }) => {
               <button
                 onClick={() => setSheetOpen(false)}
                 className="p-2 rounded-xl text-slate-400 hover:bg-slate-100 transition-colors duration-200"
+                aria-label="Close menu"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -213,7 +218,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenQuiz }) => {
                 EN | 中文
               </button>
               <button
-                onClick={() => { setSheetOpen(false); onOpenQuiz(); }}
+                onClick={() => { setSheetOpen(false); setTimeout(() => onOpenQuiz(), 250); }}
                 className="w-full py-3 rounded-full bg-brand-amber text-white font-semibold text-sm hover:bg-amber-500 transition-all duration-200"
               >
                 Free Assessment
