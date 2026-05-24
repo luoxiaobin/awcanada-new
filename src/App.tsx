@@ -4,10 +4,42 @@ import Hero from './components/Hero';
 import ServicesGrid from './components/ServicesGrid';
 import EligibilityQuiz from './components/EligibilityQuiz';
 import SocialMedia from './components/SocialMedia';
+import { useLang } from './contexts/LanguageContext';
 import './index.css';
+
+const year = new Date().getFullYear();
+
+const t = {
+  zh: {
+    cicc: 'CICC认证移民顾问',
+    servicesHeading: '服务项目',
+    services: ['快速通道', '家庭团聚', '留学签证', '工作签证'],
+    contactHeading: '联系我们',
+    emailUs: '发送邮件',
+    wechat: '微信（扫描上方二维码）',
+    whatsapp: 'WhatsApp（扫描上方二维码）',
+    copyright: `© ${year} Allied Immigration. 版权所有。`,
+    chat: '💬 联系我们',
+    assessment: '✅ 免费评估',
+  },
+  en: {
+    cicc: 'CICC Certified Consultancy',
+    servicesHeading: 'Services',
+    services: ['Express Entry', 'Family Sponsorship', 'Study Visas', 'Work Permits'],
+    contactHeading: 'Contact',
+    emailUs: 'Email us',
+    wechat: 'WeChat (scan QR above)',
+    whatsapp: 'WhatsApp (scan QR above)',
+    copyright: `© ${year} Allied Immigration. All rights reserved.`,
+    chat: '💬 Chat with Us',
+    assessment: '✅ Free Assessment',
+  },
+};
 
 const App: React.FC = () => {
   const [quizOpen, setQuizOpen] = useState(false);
+  const { lang } = useLang();
+  const tx = t[lang];
 
   return (
     <div className="min-h-screen bg-brand-bg font-sans">
@@ -24,15 +56,15 @@ const App: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
             <div>
               <h3 className="text-brand-amber font-bold text-lg mb-3">Allied Immigration</h3>
-              <p className="text-slate-400 text-sm mb-2">CICC Certified Consultancy</p>
+              <p className="text-slate-400 text-sm mb-2">{tx.cicc}</p>
               <a href="mailto:info@awcanada.com" className="text-slate-400 text-sm hover:text-brand-amber transition-colors duration-200">
                 info@awcanada.com
               </a>
             </div>
             <div>
-              <h4 className="text-white font-semibold mb-3 text-sm uppercase tracking-wider">Services</h4>
+              <h4 className="text-white font-semibold mb-3 text-sm uppercase tracking-wider">{tx.servicesHeading}</h4>
               <ul className="space-y-2">
-                {['Express Entry', 'Family Sponsorship', 'Study Visas', 'Work Permits'].map(s => (
+                {tx.services.map(s => (
                   <li key={s}>
                     <a href="#services" className="text-slate-400 text-sm hover:text-brand-amber transition-colors duration-200">{s}</a>
                   </li>
@@ -40,16 +72,16 @@ const App: React.FC = () => {
               </ul>
             </div>
             <div>
-              <h4 className="text-white font-semibold mb-3 text-sm uppercase tracking-wider">Contact</h4>
+              <h4 className="text-white font-semibold mb-3 text-sm uppercase tracking-wider">{tx.contactHeading}</h4>
               <ul className="space-y-2 text-slate-400 text-sm">
-                <li><a href="mailto:info@awcanada.com" className="hover:text-brand-amber transition-colors duration-200">Email us</a></li>
-                <li>WeChat (scan QR above)</li>
-                <li>WhatsApp (scan QR above)</li>
+                <li><a href="mailto:info@awcanada.com" className="hover:text-brand-amber transition-colors duration-200">{tx.emailUs}</a></li>
+                <li>{tx.wechat}</li>
+                <li>{tx.whatsapp}</li>
               </ul>
             </div>
           </div>
           <div className="border-t border-slate-800 pt-6 text-center">
-            <p className="text-slate-500 text-sm">© {new Date().getFullYear()} Allied Immigration. All rights reserved.</p>
+            <p className="text-slate-500 text-sm">{tx.copyright}</p>
           </div>
         </div>
       </footer>
@@ -61,18 +93,17 @@ const App: React.FC = () => {
             href="#contact"
             className="flex-1 py-3 rounded-full border-2 border-brand-navy text-brand-navy font-semibold text-sm text-center hover:bg-brand-navy hover:text-white transition-all duration-200"
           >
-            💬 Chat with Us
+            {tx.chat}
           </a>
           <button
             onClick={() => setQuizOpen(true)}
             className="flex-1 py-3 rounded-full bg-brand-amber text-white font-semibold text-sm hover:bg-amber-500 transition-all duration-200"
           >
-            ✅ Free Assessment
+            {tx.assessment}
           </button>
         </div>
       </div>
 
-      {/* Quiz Modal */}
       <EligibilityQuiz isOpen={quizOpen} onClose={() => setQuizOpen(false)} />
     </div>
   );
