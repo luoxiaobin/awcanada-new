@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Globe, Menu, X, ChevronDown, Plus, Minus } from 'lucide-react';
+import { useLang } from '../contexts/LanguageContext';
 
 interface SubMenuItem {
   title: string;
@@ -7,19 +8,19 @@ interface SubMenuItem {
 }
 
 interface MenuItem {
-  title: string;
+  key: string;
+  zhTitle: string;
+  enTitle: string;
   link?: string;
   subMenu?: SubMenuItem[];
 }
 
-interface NavbarProps {
-  onOpenQuiz: () => void;
-}
-
 const menuData: MenuItem[] = [
-  { title: '首页', link: '#' },
+  { key: 'home', zhTitle: '首页', enTitle: 'Home', link: '#' },
   {
-    title: '移民',
+    key: 'immigration',
+    zhTitle: '移民',
+    enTitle: 'Immigration',
     subMenu: [
       { title: '担保父母/祖父母移民', link: '#' },
       { title: '担保配偶/同居伙伴移民', link: '#' },
@@ -29,7 +30,9 @@ const menuData: MenuItem[] = [
     ],
   },
   {
-    title: '留学',
+    key: 'study',
+    zhTitle: '留学',
+    enTitle: 'Study',
     subMenu: [
       { title: '加拿大留学申请', link: '#' },
       { title: '留学生对配偶（大签）', link: '#' },
@@ -38,7 +41,9 @@ const menuData: MenuItem[] = [
     ],
   },
   {
-    title: '访问',
+    key: 'visit',
+    zhTitle: '访问',
+    enTitle: 'Visit',
     subMenu: [
       { title: '访问签证转工签计划', link: '#' },
       { title: '超级签证', link: '#' },
@@ -46,7 +51,9 @@ const menuData: MenuItem[] = [
     ],
   },
   {
-    title: '枫叶卡',
+    key: 'prcard',
+    zhTitle: '枫叶卡',
+    enTitle: 'PR Card',
     subMenu: [
       { title: '枫叶卡更新', link: '#' },
       { title: '枫叶卡更新 (加急)', link: '#' },
@@ -56,23 +63,34 @@ const menuData: MenuItem[] = [
     ],
   },
   {
-    title: '入籍',
+    key: 'citizenship',
+    zhTitle: '入籍',
+    enTitle: 'Citizenship',
     subMenu: [
       { title: '成年人入籍申请', link: '#' },
       { title: '未成年人入籍申请', link: '#' },
     ],
   },
-  { title: '联系我们', link: '#contact' },
+  { key: 'contact', zhTitle: '联系我们', enTitle: 'Contact Us', link: '#contact' },
 ];
+
+interface NavbarProps {
+  onOpenQuiz: () => void;
+}
 
 const Navbar: React.FC<NavbarProps> = ({ onOpenQuiz }) => {
   const [sheetOpen, setSheetOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [openAccordions, setOpenAccordions] = useState<Record<string, boolean>>({});
+  const { lang, setLang } = useLang();
 
-  const toggleAccordion = (title: string) => {
-    setOpenAccordions(prev => ({ ...prev, [title]: !prev[title] }));
+  const toggleAccordion = (key: string) => {
+    setOpenAccordions(prev => ({ ...prev, [key]: !prev[key] }));
   };
+
+  const cta = lang === 'zh' ? '免费评估' : 'Free Assessment';
+  const toggleLabel = lang === 'zh' ? 'EN | 中文' : '中文 | EN';
+  const handleToggleLang = () => setLang(lang === 'zh' ? 'en' : 'zh');
 
   return (
     <>
@@ -89,16 +107,16 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenQuiz }) => {
               {menuData.map(item =>
                 item.subMenu ? (
                   <div
-                    key={item.title}
+                    key={item.key}
                     className="relative"
-                    onMouseEnter={() => setActiveDropdown(item.title)}
+                    onMouseEnter={() => setActiveDropdown(item.key)}
                     onMouseLeave={() => setActiveDropdown(null)}
                   >
                     <button className="flex items-center gap-1 text-slate-600 hover:text-brand-navy font-medium text-sm transition-colors duration-200">
-                      {item.title}
+                      {lang === 'zh' ? item.zhTitle : item.enTitle}
                       <ChevronDown className="w-3.5 h-3.5" />
                     </button>
-                    {activeDropdown === item.title && (
+                    {activeDropdown === item.key && (
                       <div className="absolute top-full left-0 mt-2 w-52 bg-white rounded-2xl shadow-lg border border-slate-100 py-2 z-50">
                         {item.subMenu.map(sub => (
                           <a
@@ -114,11 +132,11 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenQuiz }) => {
                   </div>
                 ) : (
                   <a
-                    key={item.title}
+                    key={item.key}
                     href={item.link}
                     className="text-slate-600 hover:text-brand-navy font-medium text-sm transition-colors duration-200"
                   >
-                    {item.title}
+                    {lang === 'zh' ? item.zhTitle : item.enTitle}
                   </a>
                 )
               )}
@@ -127,17 +145,18 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenQuiz }) => {
             {/* Right side */}
             <div className="flex items-center gap-3">
               <button
+                onClick={handleToggleLang}
                 className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-slate-200 text-sm text-slate-600 hover:border-brand-sky hover:text-brand-sky transition-all duration-200"
                 aria-label="Toggle language"
               >
                 <Globe className="w-3.5 h-3.5" />
-                EN | 中文
+                {toggleLabel}
               </button>
               <button
                 onClick={onOpenQuiz}
                 className="hidden lg:block px-5 py-2 rounded-full bg-brand-amber text-white font-semibold text-sm hover:bg-amber-500 transition-all duration-200 shadow-sm"
               >
-                Free Assessment
+                {cta}
               </button>
               <button
                 onClick={() => setSheetOpen(true)}
@@ -172,19 +191,19 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenQuiz }) => {
             <div className="px-6 py-4 space-y-1">
               {menuData.map(item =>
                 item.subMenu ? (
-                  <div key={item.title}>
+                  <div key={item.key}>
                     <button
-                      onClick={() => toggleAccordion(item.title)}
+                      onClick={() => toggleAccordion(item.key)}
                       className="w-full flex items-center justify-between py-3 text-slate-700 font-medium border-b border-slate-50"
                     >
-                      {item.title}
-                      {openAccordions[item.title] ? (
+                      {lang === 'zh' ? item.zhTitle : item.enTitle}
+                      {openAccordions[item.key] ? (
                         <Minus className="w-4 h-4 text-slate-400" />
                       ) : (
                         <Plus className="w-4 h-4 text-slate-400" />
                       )}
                     </button>
-                    {openAccordions[item.title] && (
+                    {openAccordions[item.key] && (
                       <div className="pl-4 pb-2 space-y-1">
                         {item.subMenu.map(sub => (
                           <a
@@ -201,27 +220,30 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenQuiz }) => {
                   </div>
                 ) : (
                   <a
-                    key={item.title}
+                    key={item.key}
                     href={item.link}
                     onClick={() => setSheetOpen(false)}
                     className="block py-3 text-slate-700 font-medium border-b border-slate-50"
                   >
-                    {item.title}
+                    {lang === 'zh' ? item.zhTitle : item.enTitle}
                   </a>
                 )
               )}
             </div>
 
             <div className="px-6 pb-10 pt-3 space-y-3">
-              <button className="w-full flex items-center justify-center gap-2 py-3 rounded-full border border-slate-200 text-slate-600 text-sm font-medium">
+              <button
+                onClick={handleToggleLang}
+                className="w-full flex items-center justify-center gap-2 py-3 rounded-full border border-slate-200 text-slate-600 text-sm font-medium"
+              >
                 <Globe className="w-4 h-4" />
-                EN | 中文
+                {toggleLabel}
               </button>
               <button
                 onClick={() => { setSheetOpen(false); setTimeout(() => onOpenQuiz(), 250); }}
                 className="w-full py-3 rounded-full bg-brand-amber text-white font-semibold text-sm hover:bg-amber-500 transition-all duration-200"
               >
-                Free Assessment
+                {cta}
               </button>
             </div>
           </div>
