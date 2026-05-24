@@ -1,4 +1,4 @@
-import React from 'react';
+import { type FC } from 'react';
 import { useLang } from '../contexts/LanguageContext';
 
 interface HeroProps {
@@ -32,7 +32,7 @@ const t = {
   },
 };
 
-const Hero: React.FC<HeroProps> = ({ onOpenQuiz }) => {
+const Hero: FC<HeroProps> = ({ onOpenQuiz }) => {
   const { lang } = useLang();
   const tx = t[lang];
 
